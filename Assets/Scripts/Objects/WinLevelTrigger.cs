@@ -16,7 +16,7 @@ public class WinLevelTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            pv.RPC(nameof(WinLevel), pv.Owner);
+            pv.RPC(nameof(WinLevel), RpcTarget.AllBufferedViaServer);
         }
     }
 

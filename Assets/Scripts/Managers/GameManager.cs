@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             gmPV.RPC("RPC_SetUpPlayer", RpcTarget.AllBufferedViaServer);
+            gmPV.RPC(nameof(RPC_LockMouseCursor), RpcTarget.AllBufferedViaServer);
         }
     }
 
@@ -83,6 +84,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             players[i].GetComponent<PlayerController>().isActive = false;
         }
+        gmPV.RPC(nameof(RPC_UnlockMouseCursor), RpcTarget.AllBufferedViaServer);
         SetupWinScreen();
     }
 
@@ -112,6 +114,18 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         winScreen.SetActive(true);
+    }
+
+    [PunRPC]
+    public void RPC_LockMouseCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    [PunRPC]
+    public void RPC_UnlockMouseCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
     }
 }
 
